@@ -22,7 +22,6 @@ namespace Egress_Scraping_Test.Pages
         {
 
             // CACHE
-
             if (!Cache.TryGetValue("UserData", out Rootobject cacheValue))                                  // check if chache contains user data
             {
                 // REST API                                                                                 // having REST API here will only execute when we need new data in cache
@@ -35,13 +34,10 @@ namespace Egress_Scraping_Test.Pages
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromSeconds(3));                                         // can be longer than  seconds 
-
                 Cache.Set("UserData", cacheValue, cacheEntryOptions);                                       // set new user data
             }
-            
             CachedData = cacheValue;
         }
-
     }
 
     public class Rootobject
