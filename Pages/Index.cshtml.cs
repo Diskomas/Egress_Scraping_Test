@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using RestSharp;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Caching.Memory;
@@ -33,7 +28,7 @@ namespace Egress_Scraping_Test.Pages
                 }
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));                                         // can be longer than  seconds 
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));                                         // can be longer than 3 seconds 
                 Cache.Set("UserData", cacheValue, cacheEntryOptions);                                       // set new user data
             }
             CachedData = cacheValue;
