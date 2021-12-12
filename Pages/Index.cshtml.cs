@@ -7,28 +7,48 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Egress_Scraping_Test.Pages
 {
     public class IndexModel : PageModel
     {
+        private IMemoryCache _memoryCache;
+        public IndexModel(IMemoryCache memoryCache) => _memoryCache = memoryCache;
+
         public Rootobject UserData;
-
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+        public DateTime CurrentDateTime;
+        public string CacheCurrentDateTime;
 
         public void OnGet()
         {
+            // REST API
+
             var response = new RestClient("https://randomuser.me/api/").Execute(new RestRequest(""));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 UserData = JsonConvert.DeserializeObject<Rootobject>(response.Content);
             }
+
+
+            // CACHE
+
+            CurrentDateTime = DateTime.Now;
+
+            if (!_memoryCache.TryGetValue("CachedTime", out string cacheValue))
+            {
+                cacheValue = "Hi";
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));
+
+                _memoryCache.Set("CachedTime", cacheValue, cacheEntryOptions);
+            }
+
+            CacheCurrentDateTime = cacheValue;
+
+
         }
 
     }
@@ -36,16 +56,8 @@ namespace Egress_Scraping_Test.Pages
     public class Rootobject
     {
         public Result[] results { get; set; }
-        //public Info info { get; set; }
     }
 
-    public class Info
-    {
-        public string seed { get; set; }
-        public int results { get; set; }
-        public int page { get; set; }
-        public string version { get; set; }
-    }
 
     public class Result
     {
