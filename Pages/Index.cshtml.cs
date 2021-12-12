@@ -13,38 +13,33 @@ namespace Egress_Scraping_Test.Pages
 {
     public class IndexModel : PageModel
     {
-        private IMemoryCache _memoryCache;
-        public IndexModel(IMemoryCache memoryCache) => _memoryCache = memoryCache;
+        private IMemoryCache Cache;
+        public IndexModel(IMemoryCache memoryCache) => Cache = memoryCache;
 
         public Rootobject CachedData;
 
         public void OnGet()
         {
-            // REST API
-
-            var response = new RestClient("https://randomuser.me/api/").Execute(new RestRequest(""));
-            Rootobject UserData = null;
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                UserData = JsonConvert.DeserializeObject<Rootobject>(response.Content);
-            }
-
 
             // CACHE
 
-            if (!_memoryCache.TryGetValue("CachedTime", out Rootobject cacheValue))
+            if (!Cache.TryGetValue("UserData", out Rootobject cacheValue))                                  // check if chache contains user data
             {
-                cacheValue = UserData;
+                // REST API                                                                                 // having REST API here will only execute when we need new data in cache
+
+                var response = new RestClient("https://randomuser.me/api/").Execute(new RestRequest(""));
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    cacheValue = JsonConvert.DeserializeObject<Rootobject>(response.Content);
+                }
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));                                         // can be longer than  seconds 
 
-                _memoryCache.Set("CachedTime", cacheValue, cacheEntryOptions);
+                Cache.Set("UserData", cacheValue, cacheEntryOptions);                                       // set new user data
             }
-
+            
             CachedData = cacheValue;
-
-
         }
 
     }
@@ -54,17 +49,12 @@ namespace Egress_Scraping_Test.Pages
         public Result[] results { get; set; }
     }
 
-
     public class Result
     {
         public string gender { get; set; }
         public Name name { get; set; }
-        public Location location { get; set; }
-        public string email { get; set; }
         public Dob dob { get; set; }
-        public Registered registered { get; set; }
-        public string phone { get; set; }
-        public Picture picture { get; set; }
+        public Picture picture { get; set; } 
     }
 
     public class Name
@@ -74,33 +64,12 @@ namespace Egress_Scraping_Test.Pages
         public string last { get; set; }
     }
 
-    public class Location
-    {
-        public Street street { get; set; }
-        public string city { get; set; }
-        public string state { get; set; }
-        public string country { get; set; }
-        public string postcode { get; set; }
-    }
-
-    public class Street
-    {
-        public int number { get; set; }
-        public string name { get; set; }
-    }
-
-
     public class Dob
     {
         public DateTime date { get; set; }
         public int age { get; set; }
     }
 
-    public class Registered
-    {
-        public DateTime date { get; set; }
-        public int age { get; set; }
-    }
 
     public class Picture
     {

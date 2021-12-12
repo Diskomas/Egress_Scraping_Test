@@ -7,18 +7,34 @@
 
 <div class="Index-Box">
     <h1 class="Index-Title">RANDOM USER GEN SCRAPER</h1>
-    <p>Test for <code>Egress</code> interview, using REST API</p>
+    <p>Test for <code>Egress</code> interview, using <code>REST API</code> and <code>Cache</code></p>
 </div>
 
 <div class="User-Box">
     <div class="Main-Data-Container">
         <div class="Image-Container">
-            <img src="@Model.CachedData.results[0].picture.medium" alt="" />
+            <img src="@Model.CachedData.results[0].picture.large" alt="" />
         </div>
         <div class="User-Data-Name">
             <p>@Model.CachedData.results[0].name.title @Model.CachedData.results[0].name.first @Model.CachedData.results[0].name.last</p>
         </div>
+        <div class="User-Data-Additional">
+            <div class="User-Data-Smaller">
+                <p>Gender:</p>
+                <p>@Model.CachedData.results[0].gender</p>
+            </div>
+            <div class="User-Data-Smaller">
+                <p>Dob:</p>
+                <p>@Model.CachedData.results[0].dob.date</p>
+            </div>
+            <div class="User-Data-Smaller">
+                <p>Age:</p>
+                <p>@Model.CachedData.results[0].dob.age</p>
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 

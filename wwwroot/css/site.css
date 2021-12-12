@@ -59,6 +59,7 @@ html {
 }
 
 body {
+    background: rgb(39 44 47);
     margin-bottom: 60px;
 }
 .footer {
@@ -72,7 +73,7 @@ body {
 .Index-Box {
     width: 100%;
     height: 350px;
-    background: #2c2e31;
+    background: #22272a;
     text-align: center;
 }
 .Index-Box h1{
@@ -92,13 +93,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 .Main-Data-Container {
     width: 600px;
-    height: 400px;
+    height: 380px;
     box-shadow: 2px 2px 4px rgb(0 0 0 / 0.46);
-    margin-top: -250px;
-    background: white;
+    margin-top: -270px;
+    background: #22272a;
+    border-radius: 10px;
+    overflow: hidden;
+    color: white;
+    border: 1px dashed #5b3ebd;
 }
 .Image-Container {
     width: 100%;
@@ -106,17 +112,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(89 89 89)
+    background-color: rgb(39 44 47);
 }
 .Image-Container img {
     margin-top: 100px;
     width: 150px;
     height:150px;
     border-radius: 50%;
-    border: 5px solid lightgrey;
+    border: 3px dashed #5b3ebd;
 }
-
-.User-Data-Name{
+code {
+    color: #5b3ebd;
+}
+.User-Data-Name {
     padding-top: 80px;
     width: 100%;
     height: 100px;
@@ -126,4 +134,26 @@ body {
 .User-Data-Name p{
     font-size: 30px;
     letter-spacing: 1px;
+}
+
+.User-Data-Additional{
+    width: 100%;
+    height: 100px;
+}
+.User-Data-Smaller {
+    width: 33%;
+    padding-top: 50px;
+    height: 100px;
+    float: left;
+    text-align: center;
+}
+
+.User-Data-Smaller p:nth-child(1){
+    font-weight: bold;
+}
+
+.Additonal-Contianer {
+    width: 100%;
+    height: 500px;
+    box-shadow: 2px 2px 4px rgb(0 0 0 / 0.46);
 }
