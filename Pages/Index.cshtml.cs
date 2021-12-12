@@ -16,16 +16,14 @@ namespace Egress_Scraping_Test.Pages
         private IMemoryCache _memoryCache;
         public IndexModel(IMemoryCache memoryCache) => _memoryCache = memoryCache;
 
-        public Rootobject UserData;
-        public DateTime CurrentDateTime;
-        public string CacheCurrentDateTime;
+        public Rootobject CachedData;
 
         public void OnGet()
         {
             // REST API
 
             var response = new RestClient("https://randomuser.me/api/").Execute(new RestRequest(""));
-
+            Rootobject UserData = null;
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 UserData = JsonConvert.DeserializeObject<Rootobject>(response.Content);
@@ -34,11 +32,9 @@ namespace Egress_Scraping_Test.Pages
 
             // CACHE
 
-            CurrentDateTime = DateTime.Now;
-
-            if (!_memoryCache.TryGetValue("CachedTime", out string cacheValue))
+            if (!_memoryCache.TryGetValue("CachedTime", out Rootobject cacheValue))
             {
-                cacheValue = "Hi";
+                cacheValue = UserData;
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromSeconds(3));
@@ -46,7 +42,7 @@ namespace Egress_Scraping_Test.Pages
                 _memoryCache.Set("CachedTime", cacheValue, cacheEntryOptions);
             }
 
-            CacheCurrentDateTime = cacheValue;
+            CachedData = cacheValue;
 
 
         }
@@ -65,14 +61,10 @@ namespace Egress_Scraping_Test.Pages
         public Name name { get; set; }
         public Location location { get; set; }
         public string email { get; set; }
-        public Login login { get; set; }
         public Dob dob { get; set; }
         public Registered registered { get; set; }
         public string phone { get; set; }
-        public string cell { get; set; }
-        public Id id { get; set; }
         public Picture picture { get; set; }
-        public string nat { get; set; }
     }
 
     public class Name
@@ -89,8 +81,6 @@ namespace Egress_Scraping_Test.Pages
         public string state { get; set; }
         public string country { get; set; }
         public string postcode { get; set; }
-        public Coordinates coordinates { get; set; }
-        public Timezone timezone { get; set; }
     }
 
     public class Street
@@ -99,28 +89,6 @@ namespace Egress_Scraping_Test.Pages
         public string name { get; set; }
     }
 
-    public class Coordinates
-    {
-        public string latitude { get; set; }
-        public string longitude { get; set; }
-    }
-
-    public class Timezone
-    {
-        public string offset { get; set; }
-        public string description { get; set; }
-    }
-
-    public class Login
-    {
-        public string uuid { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string salt { get; set; }
-        public string md5 { get; set; }
-        public string sha1 { get; set; }
-        public string sha256 { get; set; }
-    }
 
     public class Dob
     {
@@ -132,12 +100,6 @@ namespace Egress_Scraping_Test.Pages
     {
         public DateTime date { get; set; }
         public int age { get; set; }
-    }
-
-    public class Id
-    {
-        public string name { get; set; }
-        public string value { get; set; }
     }
 
     public class Picture

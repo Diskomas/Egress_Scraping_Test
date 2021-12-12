@@ -59,8 +59,7 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;
@@ -68,4 +67,63 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+.Index-Box {
+    width: 100%;
+    height: 350px;
+    background: #2c2e31;
+    text-align: center;
+}
+.Index-Box h1{
+    color: white;
+    letter-spacing: 3px;
+    padding-top: 50px;
+}
+
+.Index-Box p{
+    color: white;
+    letter-spacing: 1px;
+}
+
+.User-Box {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Main-Data-Container {
+    width: 600px;
+    height: 400px;
+    box-shadow: 2px 2px 4px rgb(0 0 0 / 0.46);
+    margin-top: -250px;
+    background: white;
+}
+.Image-Container {
+    width: 100%;
+    height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(89 89 89)
+}
+.Image-Container img {
+    margin-top: 100px;
+    width: 150px;
+    height:150px;
+    border-radius: 50%;
+    border: 5px solid lightgrey;
+}
+
+.User-Data-Name{
+    padding-top: 80px;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+}
+
+.User-Data-Name p{
+    font-size: 30px;
+    letter-spacing: 1px;
 }
